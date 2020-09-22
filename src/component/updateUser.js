@@ -86,7 +86,7 @@ export default class UpdateUser extends Component {
               </Col>
               <Col>
                 <Button variant="primary" type="submit" style={{float: 'right'}}>
-                  Submit
+                  Update
                 </Button>
               </Col>
             </Row>

@@ -25,14 +25,14 @@ export async function Api (method, {page, size, gender, dob, search, user, id}) 
     return await axios.get(`http://localhost:5000/api/v1/users/${page}/${size}?${data}`);
   }
 }
-
+// this function is used to apped 0 at the begining at 1-9
 export function appendZero (n) {
   if (n <= 9) {
     return "0" + n;
   }
   return n;
 }
-
+// this function is used to update the value and the state of an input in the form
 export function handleChange(ref,e) {
   if(ref === 'news'){
       if(this.state.news === true) {

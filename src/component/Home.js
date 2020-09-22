@@ -3,8 +3,6 @@ import React, {Component} from 'react';
 import {Container, Row, Col, Form, Button, InputGroup, FormControl} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import {Api, handleChange} from './config/functions';
-// import { FaThinkPeaks } from 'react-icons/fa';
-
 class Home extends Component{
 
   constructor(props) {
@@ -17,7 +15,9 @@ class Home extends Component{
       message: 'Data is Loading Please wait ...',
       gender: '',
       dob:'',
-      page: 1
+      page: 1,
+      paginationIndex: [],
+      active: 1
     }
 
     this.handlePage = this.handlePage.bind(this)
@@ -31,7 +31,8 @@ class Home extends Component{
         console.log(data)
         this.setState({
           listUsers: data.data.events,
-          isLoading: false
+          isLoading: false,
+          paginationIndex: data.data.pagesIndexes
         })
       }).catch(error => {console.log('Something Went Wrong : ', error)});
   }
@@ -63,14 +64,29 @@ class Home extends Component{
     }
     this.handlePage()
   }
+  
 
   render() {
     let Mydata ;
+    let pagination;
     if (!this.state.isLoading) {
       Mydata =  <UserTable data={this.state.listUsers} handleDeleteuser={this.handleDelete} handleDob={this.handleDob} />;
+      pagination = this.state.paginationIndex.map(item => <li key={item} style={{marginRight: 10}}>
+        <Button value={item} onClick={(e)=> {
+          this.setState({page: e.target.value})
+          this.handlePage()
+          }}
+          variant={this.state.active === item ? "primary" : "outline-primary"}
+        >
+          {item}
+        </Button>
+      </li>);
     } else {
       Mydata =  <h1>{this.state.message}</h1>;
     }
+    console.log(pagination)
+
+    
     return (
       <Container style={{marginTop:50}}>
         <Row>
@@ -107,6 +123,11 @@ class Home extends Component{
         </Row>
         <Row>
           {Mydata}
+        </Row>
+        <Row style={{justifyContent: 'center'}}>
+          <ul style={{listStyle: 'none', display: 'flex'}}>
+            {pagination}
+          </ul>
         </Row>
       </Container>
       // 

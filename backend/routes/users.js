@@ -45,10 +45,16 @@ router.get('/:page/:size?', asyncHandler(async (req, res) => {
                       res.json(res.status(400).json(`Error : ${err}`))
                     }
                     Subers.countDocuments().exec(function(err, count) {
+                      let numberofpages = Math.ceil( count / size);
+                      let pageIndex = [];
+                      for(let i =1; i <= numberofpages; i++){
+                        pageIndex.push(i)
+                      }
                       res.json({
                           events: events,
                           page: page,
-                          pages: Math.ceil( count / size)
+                          pages: numberofpages,
+                          pagesIndexes: pageIndex
                       })
                   })
                 })

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Image, Button} from 'react-bootstrap'
 import { FaRegTrashAlt, FaUserEdit } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import {appendZero} from './config/functions';
 
 class ListUser extends Component{
   constructor(props) {
@@ -12,20 +13,12 @@ class ListUser extends Component{
     this.handleRemoveUser = () => this.props.handleDeleteUser(this.state.id);
   }
 
-
-  appendZero = (n) =>{
-    if (n <= 9) {
-      return "0" + n;
-    }
-    return n;
-  }
-
   render() {
     const {username, email, dob, gender, news, image, id} = this.props;
     const data = {username, email, dob, gender, news, image, id};
     const profileImage =  image === null ? require('../assest/img/avatardefault.png') :require('../assest/img/avataaars.png');
     let mydate = new Date(dob);
-    mydate = mydate.getFullYear() + '/' + this.appendZero(mydate.getMonth()) + '/' + this.appendZero(mydate.getDay());
+    mydate = mydate.getFullYear() + '/' + appendZero(mydate.getMonth()) + '/' + appendZero(mydate.getDay());
     return (
       <tr style={{textAlign: 'center'}}>
         <td >
